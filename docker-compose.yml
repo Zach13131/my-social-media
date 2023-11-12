@@ -1,0 +1,60 @@
+version: "3"
+name: "mini-social-media"
+services:
+  app:
+    restart: on-failure
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_PASSWORD: pass
+      NODE_ENV: development
+    ports:
+      - "4000:3001"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  sockets:
+    build:
+      context: ./sockets
+      dockerfile: Dockerfile
+
+    ports:
+      - "4001:3002"
+    depends_on:
+      - postgres
+      - app
+    volumes:
+      - ./sockets/src:/app/src
+  react:
+    build:
+      context: ./client/react-docker-example/
+      dockerfile: Dockerfile
+    ports:
+      - 5000:3000
+    volumes:
+      - "./client/react-docker-example:/app"
+      - "/app/node_modules"
+
+  postgres:
+    image: postgres:11
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: social-media
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
