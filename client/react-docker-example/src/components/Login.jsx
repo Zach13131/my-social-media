@@ -25,11 +25,11 @@ const Login = () => {
         const { accessToken, refreshToken, id, username, firstName } =
           result.data.body;
 
-        Cookies.set("accesToken", accessToken);
-        Cookies.set("refreshToken", refreshToken);
-        Cookies.set("userId", id);
-        Cookies.set("username", username);
-        Cookies.set("firstName", firstName);
+        Cookies.set("accesToken", accessToken, { expires: 365 });
+        Cookies.set("refreshToken", refreshToken, { expires: 365 });
+        Cookies.set("userId", id, { expires: 365 });
+        Cookies.set("username", username, { expires: 365 });
+        Cookies.set("firstName", firstName, { expires: 365 });
         alert("Login successful!");
 
         navigate("/home");

@@ -159,7 +159,7 @@ const Users = () => {
                     alert("Can't add to friend yourself");
                     return;
                   }
-                  Cookies.set("toUser", userId);
+                  Cookies.set("toUser", userId, { expires: 365 });
                   addToFriendHandler(userId);
                 }}
               >

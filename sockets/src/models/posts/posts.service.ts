@@ -122,7 +122,7 @@ export class PostsService implements OnGatewayConnection {
     this.usersSockets[userId] = client.id;
 
     const data = { userId, accesToken, setOnline: true };
-    await this.sendPostRequest('/updateUser', data);
+    // await this.sendPostRequest('/updateUser', data);
 
     this.server.emit('userConnect', {
       message: 'from server',
@@ -136,7 +136,7 @@ export class PostsService implements OnGatewayConnection {
     const userId = client.handshake.query.userId as string;
 
     const data = { userId, accesToken, setOnline: false };
-    await this.sendPostRequest('/updateUser', data);
+    // await this.sendPostRequest('/updateUser', data);
   }
 
   @SubscribeMessage('sendMessage')
