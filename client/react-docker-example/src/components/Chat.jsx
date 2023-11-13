@@ -52,6 +52,7 @@ const Chat = () => {
   const onEnterPress = (e) => {
     if (+e.keyCode === 13) {
       e.preventDefault();
+      e.target.value = "";
       sendMessage();
     }
   };
